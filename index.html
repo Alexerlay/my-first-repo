@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的第一個 GitHub 學習專案 🚀</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --accent-green: #4ade80;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-green);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .step-box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      position: relative;
+    }
+    .step-box h3 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .step-box p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    code {
+      background: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #f1f5f9;
+      font-size: 0.88rem;
+    }
+    .interactive-section {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .btn {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: #0369a1;
+      transform: translateY(-2px);
+    }
+    .log-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      min-height: 80px;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--accent-green);
+      white-space: pre-wrap;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎉 恭喜！你的第一個 GitHub 程式</h1>
+      <p>這是你在本地建立的第一個網頁應用，專門用來練習 Git & GitHub！</p>
+    </header>
+
+    <div class="card">
+      <h2>🧠 Git 核心概念速查（Vibe Coding 必備）</h2>
+      <div class="grid">
+        <div class="step-box">
+          <h3>1. 📸 Commit（存檔）</h3>
+          <p>像遊戲存檔點。<code>git commit -m "說明"</code> 可以把目前的好狀態固定下來，改壞隨時能回退。</p>
+        </div>
+        <div class="step-box">
+          <h3>2. ☁️ Push（上傳）</h3>
+          <p>把本機存檔同步到 GitHub 雲端倉庫，電腦換台或重灌也不怕程式遺失。</p>
+        </div>
+        <div class="step-box">
+          <h3>3. 🌿 Branch（分支）</h3>
+          <p>開闢一個「平行時空」。讓 AI 在新分支上嘗試大改動，安全不影響主線。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card interactive-section">
+      <h2>🕹️ 互動測試：模擬 Vibe Coding 存檔</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        點擊下方按鈕，模擬向 AI 說「幫我完成功能並 Commit」！
+      </p>
+      <button class="btn" onclick="simulateCommit()">點我模擬 Commit 存檔 🚀</button>
+      <div class="log-box" id="logOutput">// 點擊上方按鈕開始模擬操作紀錄...</div>
+    </div>
+
+    <footer>
+      <p>Created with Antigravity • Vibe Coding GitHub Starter</p>
+    </footer>
+  </div>
+
+  <script>
+    let commitCount = 1;
+    const logs = [
+      "✨ [Git] 新增了待辦事項功能 (Commit: feat-todo)",
+      "🎨 [Git] 美化了按鈕樣式與深色模式 (Commit: style-ui)",
+      "🐛 [Git] 修復了資料驗證問題 (Commit: fix-validation)",
+      "🚀 [Git] 最佳化載入速度 (Commit: perf-opt)",
+      "🛡️ [Git] 新增平行分支 feature/ai-agent 進行實驗"
+    ];
+
+    function simulateCommit() {
+      const output = document.getElementById("logOutput");
+      const randomLog = logs[(commitCount - 1) % logs.length];
+      const time = new Date().toLocaleTimeString();
+      output.innerText = `[${time}] 第 ${commitCount} 次存檔成功！\n> ${randomLog}\n\n` + output.innerText;
+      commitCount++;
+    }
+  </script>
+</body>
+</html>
