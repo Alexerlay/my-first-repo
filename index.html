@@ -11,6 +11,7 @@
       --accent: #38bdf8;
       --accent-green: #4ade80;
       --accent-purple: #c084fc;
+      --accent-red: #f87171;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --border: #334155;
@@ -119,6 +120,12 @@
     .btn-purple:hover {
       background: #6b21a8;
     }
+    .btn-red {
+      background: #dc2626;
+    }
+    .btn-red:hover {
+      background: #b91c1c;
+    }
     .log-box {
       margin-top: 1rem;
       padding: 1rem;
@@ -175,6 +182,24 @@
       line-height: 1.5;
       text-align: left;
     }
+    /* Pomodoro styles */
+    .pomodoro-display {
+      font-size: 3.5rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: var(--accent-red);
+      margin: 1rem 0;
+      letter-spacing: 2px;
+    }
+    .badge-branch {
+      background: #3b82f6;
+      color: white;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-weight: normal;
+      margin-left: 0.5rem;
+    }
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -189,6 +214,19 @@
       <h1>🎉 我的第一個 GitHub 學習專案</h1>
       <p>這是你在本地建立的第一個網頁應用，專門用來練習 Git & GitHub！</p>
     </header>
+
+    <!-- NEW FEATURE: Pomodoro Timer in Branch -->
+    <div class="card" style="text-align: center; border: 2px solid var(--accent-red);">
+      <h2 style="justify-content: center; color: var(--accent-red);">
+        🍅 番茄鐘專注工具 <span class="badge-branch">🌿 来自分支 feature-pomodoro</span>
+      </h2>
+      <p style="color: var(--text-muted);">這是我們在新分支上開發的新功能！</p>
+      <div class="pomodoro-display" id="timer">25:00</div>
+      <div>
+        <button class="btn btn-red" id="startBtn" onclick="toggleTimer()">開始專注 ⏱️</button>
+        <button class="btn" onclick="resetTimer()">重設 🔄</button>
+      </div>
+    </div>
 
     <!-- Checklist & Progress -->
     <div class="card">
@@ -214,7 +252,7 @@
           <span>✨ 透過 AI 更新程式碼並完成第二次 Commit & Push</span>
         </label>
         <label class="checklist-item">
-          <input type="checkbox" onchange="updateProgress()" />
+          <input type="checkbox" checked onchange="updateProgress()" />
           <span>🌿 建立分支（Branch）體驗平行時空開發</span>
         </label>
       </div>
@@ -266,6 +304,48 @@
   </div>
 
   <script>
+    // Pomodoro Timer Logic
+    let timeLeft = 25 * 60;
+    let timerInterval = null;
+    let isRunning = false;
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("startBtn");
+      if (isRunning) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        btn.innerText = "繼續專注 ⏱️";
+      } else {
+        isRunning = true;
+        btn.innerText = "暫停 ⏸️";
+        timerInterval = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            document.getElementById("timer").innerText = formatTime(timeLeft);
+          } else {
+            clearInterval(timerInterval);
+            isRunning = false;
+            alert("🎉 太棒了！專注時間結束，休息一下吧！");
+            resetTimer();
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      timeLeft = 25 * 60;
+      document.getElementById("timer").innerText = "25:00";
+      document.getElementById("startBtn").innerText = "開始專注 ⏱️";
+    }
+
     const prompts = [
       "💬 「幫我新增一個倒數計時器，倒數到今天下班時間！」",
       "💬 「幫我把網頁的按鈕加上懸浮發光效果與點擊音效！」",
